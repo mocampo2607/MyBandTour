@@ -6,9 +6,11 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/css/estilos.css" rel="stylesheet" />
+    <script src="~/Scripts/js/logica.js"></script>
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-custom">
         <div class="container">
             @Html.ActionLink("MyBandTour", "Inicio", "Empresa", new { area = "" }, new { @class = "navbar-brand" })
             <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
@@ -19,17 +21,35 @@
                 <ul class="navbar-nav flex-grow-1">
                     <li>@Html.ActionLink("Inicio", "Inicio", "Empresa", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("Dashboard", "Dashboard", "Empresa", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li class="nav-item d-flex align-items-center ms-auto">
+                        <div class="input-group me-3">
+                            <input type="text" class="form-control" placeholder="Buscar eventos...">
+                            <button class="btn btn-azul">Buscar</button>
+                        </div>
+                        <div class="btn-group ms-auto me-0">
+                            <button class="btn btn-outline-light me-2">Iniciar Sesión</button>
+                            <button class="btn btn-outline-light">Registrarse</button>
+                        </div>
+
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
+
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
     </div>
+    <footer class="footer-mybandtour">
+        <div class="container text-center">
+            <p class="mb-1">© 2025 MyBandTour. Todos los derechos reservados.</p>
+            <p class="mb-1">Tu portal para explorar y agendar eventos musicales únicos 🎶</p>
+
+            <div class="mb-2">
+                <span class="footer-contact">Contacto: <a href="mailto:info@mybandtour.com">info@mybandtour.com</a></span><br>
+                <span class="footer-contact">WhatsApp: <a href="https://wa.me/50688888888">+506 8888-8888</a></span>
+            </div>
+    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
