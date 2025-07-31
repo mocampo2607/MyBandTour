@@ -1,0 +1,65 @@
+# Archivos y carpetas generados por Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Archivos de compilación
+bin/
+obj/
+out/
+
+# Configuración de paquetes NuGet
+packages/
+*.nupkg
+project.lock.json
+project.assets.json
+*.nuspec
+
+# Logs y archivos temporales
+*.log
+*.tmp
+*.temp
+*.bak
+
+# Configuración local y de depuración
+*.dbmdl
+*.pdb
+*.vshost.*
+*.psess
+*.vsp
+
+# Archivos de configuración de IIS Express
+*.iisexpress
+*.vspscc
+*.vssscc
+
+# Archivos de configuración del sistema operativo
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Configuración del entorno local
+appsettings.Development.json
+secrets.json
+
+# Archivos de bases de datos locales (si usás LocalDB para desarrollo)
+*.mdf
+*.ldf
+
+# Archivos de Web (si usás Web Deploy)
+*.publishsettings
+
+# Configuración de editores
+.vscode/
+.idea/
+
+# Archivos de migraciones (si se generan y no se quieren trackear)
+Migrations/
+
+# Archivos personales
+*.swp
+*.swn
+*.swo
+*.sln.iml
