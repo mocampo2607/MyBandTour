@@ -1,21 +1,4 @@
-﻿function convertDate(input) {
-    const match = input.match(/\/Date\((\d+)\)\//);
-    if (match) {
-        const milliseconds = parseInt(match[1], 10);
-        return new Date(milliseconds);
-    }
-    return null;
-}
-
-const imagenesBandas = {
-    'coldplay': 'https://example.com/imagenes/coldplay.jpg',
-    'u2': 'https://example.com/imagenes/u2.jpg',
-    'maroon 5': 'https://example.com/imagenes/maroon5.jpg',
-    'metallica': 'https://example.com/imagenes/metallica.jpg',
-    'queen': 'https://example.com/imagenes/queen.jpg'
-};
-function ProcesarCreacion() {
-
+﻿function ProcesarCreacion() {
     let codigo = document.getElementById('txtCodigo').value;
     let banda = document.getElementById('txtBanda').value;
     let genero = document.getElementById('txtGenero').value;
@@ -41,15 +24,15 @@ function ProcesarCreacion() {
             console.log(respuesta);
             if (respuesta.Estado === 'Concierto creado exitosamente') {
                 alert('Concierto creado exitosamente');
-                let codigo = document.getElementById('txtCodigo').value = '';
-                let banda = document.getElementById('txtBanda').value = '';
-                let genero = document.getElementById('txtGenero').value = '';
-                let fecha = document.getElementById('txtFecha').value = '';
-                let hora = document.getElementById('txtHora').value = '';
-                let pais = document.getElementById('txtPais').value = '';
-                let lugar = document.getElementById('txtLugar').value = '';
-            }
-            else {
+
+                document.getElementById('txtCodigo').value = '';
+                document.getElementById('txtBanda').value = '';
+                document.getElementById('txtGenero').value = '';
+                document.getElementById('txtFecha').value = '';
+                document.getElementById('txtHora').value = '';
+                document.getElementById('txtPais').value = '';
+                document.getElementById('txtLugar').value = '';
+            } else {
                 alert('Falló la creación del concierto');
             }
         },
@@ -58,68 +41,113 @@ function ProcesarCreacion() {
         }
     });
 }
-function ProcesarConsulta() {
-    $.ajax({
-        type: 'POST',
-        dataType: 'json',
-        url: '/Empresa/ConsultarConciertos',
-        data: {},
-        success: function (respuesta) {
-            console.log(respuesta);
 
-            let contenedor = document.getElementById('contenedorCards');
-            contenedor.innerHTML = '';
+document.addEventListener('DOMContentLoaded', function () {
 
-            respuesta.Lista.forEach(function (concierto, index) {
-                let nombreBanda = concierto.Banda?.toLowerCase().trim();
-                let imgURL = imagenesBandas[nombreBanda] || 'https://via.placeholder.com/300x200?text=Concierto';
-                let colapsableId = `detalle-${index}`;
+    let todosLosConciertos = [];
 
-                let fechaObj = convertDate(concierto.Fecha);
-                let fechaFormateada = fechaObj?.toLocaleDateString('es-CR', {
-                    day: '2-digit',
-                    month: 'long',
-                    year: 'numeric'
-                });
-                let horaFormateada = fechaObj?.toLocaleTimeString('es-CR', {
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
+    // Convierte la fecha del formato JSON de .NET
+    function convertDate(input) {
+        const match = input.match(/\/Date\((\d+)\)\//);
+        if (match) {
+            const milliseconds = parseInt(match[1]);
+            return new Date(milliseconds);
+        }
+        return null;
+    }
 
-                let card = `
-                            <div class="col-md-4 col-lg-3 mb-4">
-                                <div class="card h-100 text-center">
-                                    <img src="${imgURL}" class="card-img-top" alt="${concierto.Banda}">
-                                    <div class="card-body">
-                                        <h5 class="card-title">${concierto.Banda}</h5>
-                                        <p><strong>Género:</strong> ${concierto.Genero}</p>
+    // Diccionario de imágenes por nombre de banda
+    const imagenesBandas = {
+        "coldplay": "https://link-a-la-imagen.com/coldplay.jpg",
+        "metallica": "https://link-a-la-imagen.com/metallica.jpg"
+    };
 
-                                        <button class="btn btn-outline-primary btn-sm mb-2" data-bs-toggle="collapse" data-bs-target="#${colapsableId}">
-                                            Más detalles
-                                        </button>
+    // Carga los conciertos desde el backend
+    function ProcesarConsulta() {
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            url: '/Empresa/ConsultarConciertos',
+            data: {},
+            success: function (respuesta) {
+                todosLosConciertos = respuesta.Lista || [];
+                mostrarConciertos(todosLosConciertos);
+            },
+            error: function (error) {
+                console.error('Error al cargar conciertos:', error);
+            }
+        });
+    }
 
-                                        <div class="collapse" id="${colapsableId}">
-                                            <p><strong>Fecha:</strong> ${fechaFormateada}</p>
-                                            <p><strong>Hora:</strong> ${horaFormateada}</p>
-                                            <p><strong>País:</strong> ${concierto.Pais}</p>
-                                            <p><strong>Lugar:</strong> ${concierto.Lugar}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                contenedor.insertAdjacentHTML('beforeend', card);
+    // Muestra las cards de conciertos
+    function mostrarConciertos(lista) {
+        const contenedor = document.getElementById('contenedorCards');
+        const template = document.getElementById('templateCard');
+        contenedor.innerHTML = '';
+
+        lista.forEach((concierto, index) => {
+            const clone = template.content.cloneNode(true);
+            const nombreBanda = concierto.Banda?.toLowerCase().trim();
+            const imgURL = imagenesBandas[nombreBanda] || 'https://via.placeholder.com/300x200?text=Concierto';
+
+            const fechaObj = convertDate(concierto.Fecha);
+            const fechaFormateada = fechaObj?.toLocaleDateString('es-CR', {
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric'
+            });
+            const horaFormateada = fechaObj?.toLocaleTimeString('es-CR', {
+                hour: '2-digit',
+                minute: '2-digit'
             });
 
+            const colapsableId = `detalle-${index}`;
 
-        },
-        error: function (error) {
-            console.error('Error:', error);
+            // Llenar datos
+            clone.querySelector('.card-img-top').src = imgURL;
+            clone.querySelector('.card-img-top').alt = concierto.Banda;
+            clone.querySelector('.card-title').textContent = concierto.Banda;
+            clone.querySelector('.genero').innerHTML = `<strong>Género:</strong> ${concierto.Genero}`;
+            clone.querySelector('button').setAttribute('data-bs-target', `#${colapsableId}`);
+            clone.querySelector('.detalles').id = colapsableId;
+            clone.querySelector('.fecha').innerHTML = `<strong>Fecha:</strong> ${fechaFormateada}`;
+            clone.querySelector('.hora').innerHTML = `<strong>Hora:</strong> ${horaFormateada}`;
+            clone.querySelector('.pais').innerHTML = `<strong>País:</strong> ${concierto.Pais}`;
+            clone.querySelector('.lugar').innerHTML = `<strong>Lugar:</strong> ${concierto.Lugar}`;
+
+            contenedor.appendChild(clone);
+        });
+    }
+
+    // Busca conciertos por nombre de banda y muestra resultado o mensaje si no hay coincidencias
+    function buscarConciertos() {
+        const texto = document.getElementById('busqueda').value.toLowerCase();
+        const filtrados = todosLosConciertos.filter(concierto =>
+            concierto.Banda?.toLowerCase().includes(texto)
+        );
+
+        if (filtrados.length === 0) {
+            const contenedor = document.getElementById('contenedorCards');
+            contenedor.innerHTML = `
+                <div class="col-12">
+                    <p class="text-center text-muted fs-5">No se encontraron conciertos para "<strong>${texto}</strong>".</p>
+                </div>
+            `;
+        } else {
+            mostrarConciertos(filtrados);
+        }
+    }
+
+    // Asignación de eventos
+    document.getElementById('btnBuscar').addEventListener('click', buscarConciertos);
+
+    document.getElementById('busqueda').addEventListener('keyup', function (event) {
+        if (event.key === 'Enter') {
+            buscarConciertos();
         }
     });
-}
 
-
-window.onload = function () {
+    // Carga inicial de conciertos
     ProcesarConsulta();
-};
+
+});

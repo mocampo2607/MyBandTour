@@ -16,13 +16,37 @@
     <h2 class="section-title text-center mb-4">Eventos en tu ciudad</h2>
 
     <div class="row g-4 justify-content-center">
+        <br />
+        <div class="input-group me-3 mb-3">
+            <input type="text" id="busqueda" class="form-control" placeholder="Buscar eventos...">
+            <button class="btn btn-azul" id="btnBuscar">Buscar</button>
+        </div>
 
 
         <br /><br />
+        <div class="row" id="contenedorCards"></div>
+        <template id="templateCard">
+            <div class="col-md-4 col-lg-3 mb-4 card-evento">
+                <div class="card h-100 text-center">
+                    <img class="card-img-top" src="" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title"></h5>
+                        <p class="genero"></p>
 
-        <div class="row" id="contenedorCards">
-            <!-- Aquí se cargarán las tarjetas dinámicamente -->
-        </div>
+                        <button class="btn btn-outline-primary btn-sm mb-2" data-bs-toggle="collapse" data-bs-target="">
+                            Más detalles
+                        </button>
+
+                        <div class="collapse detalles" id="">
+                            <p class="fecha"></p>
+                            <p class="hora"></p>
+                            <p class="pais"></p>
+                            <p class="lugar"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
 
 
 
