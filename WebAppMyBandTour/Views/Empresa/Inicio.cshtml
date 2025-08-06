@@ -9,44 +9,47 @@
 
 
     <div class="banner-mybandtour mt-3 mb-4">
-        <img src="~/Content/img/banner.png" alt="Banner de eventos musicales" class="img-fluid w-100 rounded">
+        <img src="~/Content/img/bb.jpg" alt="Banner de eventos musicales" class="img-fluid w-100 rounded">
     </div>
 
 
     <h2 class="section-title text-center mb-4">Eventos en tu ciudad</h2>
 
-    <div class="row g-4 justify-content-center">
-        <br />
-        <div class="input-group me-3 mb-3">
-            <input type="text" id="busqueda" class="form-control" placeholder="Buscar eventos...">
-            <button class="btn btn-azul" id="btnBuscar">Buscar</button>
+    <div class="text-center mb-4">
+        <div class="d-inline-block">
+            <div class="input-group">
+                <input type="text" id="busqueda" class="form-control" placeholder="Buscar eventos...">
+                <button class="btn btn-azul" id="btnBuscar">Buscar</button>
+            </div>
         </div>
+    </div>
+    <br />
 
 
-        <br /><br />
-        <div class="row" id="contenedorCards"></div>
-        <template id="templateCard">
-            <div class="col-md-4 col-lg-3 mb-4 card-evento">
-                <div class="card h-100 text-center">
-                    <img class="card-img-top" src="" alt="">
-                    <div class="card-body">
-                        <h5 class="card-title"></h5>
-                        <p class="genero"></p>
+    <br /><br />
+    <div class="row" id="contenedorCards"></div>
+    <template id="templateCard">
+        <div class="col-md-4 col-lg-3 mb-4 card-evento">
+            <div class="card h-100 text-center">
+                <img class="card-img-top" src="" alt="">
+                <div class="card-body">
+                    <h5 class="card-title"></h5>
+                    <p class="genero"></p>
 
-                        <button class="btn btn-outline-primary btn-sm mb-2" data-bs-toggle="collapse" data-bs-target="">
-                            Más detalles
-                        </button>
+                    <button class="btn btn-outline-primary btn-sm mb-2" data-bs-toggle="collapse" data-bs-target="">
+                        Más detalles
+                    </button>
 
-                        <div class="collapse detalles" id="">
-                            <p class="fecha"></p>
-                            <p class="hora"></p>
-                            <p class="pais"></p>
-                            <p class="lugar"></p>
-                        </div>
+                    <div class="collapse detalles" id="">
+                        <p class="fecha"></p>
+                        <p class="hora"></p>
+                        <p class="pais"></p>
+                        <p class="lugar"></p>
                     </div>
                 </div>
             </div>
-        </template>
+        </div>
+    </template>
 
 
 

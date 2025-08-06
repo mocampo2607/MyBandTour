@@ -17,6 +17,33 @@ namespace WebAppMyBandTour.Controllers
 
         public ActionResult Dashboard()
         {
+            if (Session["AUTENTICADO"] != null)
+            {
+                if (Session["AUTENTICADO"]?.ToString() == "SI" && Session["ROL"]?.ToString() == "admin")
+                {
+                    return View();
+                }
+                else if (Session["AUTENTICADO"]?.ToString() == "SI") {
+                    return RedirectToAction("Inicio");
+                }
+                else
+                {
+                    return RedirectToAction("Login");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Login");
+            }
+        }
+
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        public ActionResult Registrarse()
+        {
             return View();
         }
 
@@ -41,6 +68,35 @@ namespace WebAppMyBandTour.Controllers
             var dataSetConciertos = conexion.pr_ConsultarConciertos();
             return Json(new { Lista = dataSetConciertos });
         }
+
+        public JsonResult VerificarUsuario(string usuario, string password)
+        {
+
+            BD_MyBandTourEntities conexion = new BD_MyBandTourEntities();
+            ObjectParameter Resultado = new ObjectParameter("Resultado", typeof(int));
+            var dataSetUsuario = conexion.pr_Autenticar(usuario, password, Resultado);
+            if ((int)Resultado.Value == 1) 
+            {
+                Session["AUTENTICADO"] = "SI";
+                if (usuario == "admin") 
+                {
+                    Session["ROL"] = "admin";
+                }
+                else
+                {
+                    Session["ROL"] = "normal";
+                }
+                return Json(new { Estado = "OK" });
+            }
+            else
+            {
+                Session["AUTENTICADO"] = "NO";
+                return Json(new { Estado = "FALLIDO" });
+            }
+        }
+
+
+
 
 
     }

@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let todosLosConciertos = [];
 
-    // Convierte la fecha del formato JSON de .NET
+
     function convertDate(input) {
         const match = input.match(/\/Date\((\d+)\)\//);
         if (match) {
@@ -56,13 +56,13 @@ document.addEventListener('DOMContentLoaded', function () {
         return null;
     }
 
-    // Diccionario de imágenes por nombre de banda
+
     const imagenesBandas = {
         "coldplay": "https://link-a-la-imagen.com/coldplay.jpg",
         "metallica": "https://link-a-la-imagen.com/metallica.jpg"
     };
 
-    // Carga los conciertos desde el backend
+
     function ProcesarConsulta() {
         $.ajax({
             type: 'POST',
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Muestra las cards de conciertos
+
     function mostrarConciertos(lista) {
         const contenedor = document.getElementById('contenedorCards');
         const template = document.getElementById('templateCard');
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const colapsableId = `detalle-${index}`;
 
-            // Llenar datos
+
             clone.querySelector('.card-img-top').src = imgURL;
             clone.querySelector('.card-img-top').alt = concierto.Banda;
             clone.querySelector('.card-title').textContent = concierto.Banda;
@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Busca conciertos por nombre de banda y muestra resultado o mensaje si no hay coincidencias
+
     function buscarConciertos() {
         const texto = document.getElementById('busqueda').value.toLowerCase();
         const filtrados = todosLosConciertos.filter(concierto =>
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Asignación de eventos
+
     document.getElementById('btnBuscar').addEventListener('click', buscarConciertos);
 
     document.getElementById('busqueda').addEventListener('keyup', function (event) {
@@ -147,7 +147,35 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Carga inicial de conciertos
+
     ProcesarConsulta();
 
 });
+
+
+function Autenticar() {
+    let usu = document.getElementById('txtUsuario').value;
+    let pass = document.getElementById('txtPassword').value;
+
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: '/Empresa/VerificarUsuario',
+        data: {
+            'usuario': usu, 
+            'password': pass
+        },
+        success: function (respuesta) {
+            console.log(respuesta);
+            if (respuesta.Estado === 'OK') {
+                window.location.replace('/Empresa/Dashboard');
+            }
+            else {
+                document.getElementById('lblMensaje').innerHTML = 'Usuario o contraseña incorrectos';
+            }
+        },
+        error: function (error) {
+            console.error('Error:', error);
+        }
+    });
+}

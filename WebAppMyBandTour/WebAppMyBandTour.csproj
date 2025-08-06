@@ -180,6 +180,7 @@
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\css\estilos.css" />
     <Content Include="Content\img\banner.png" />
+    <Content Include="Content\img\bb.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -234,6 +235,8 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Empresa\Inicio.cshtml" />
     <Content Include="Views\Empresa\Dashboard.cshtml" />
+    <Content Include="Views\Empresa\Login.cshtml" />
+    <Content Include="Views\Empresa\Registrarse.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
