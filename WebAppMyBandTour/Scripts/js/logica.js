@@ -1,8 +1,18 @@
-﻿const imagenesBandas = {
-    'badBunny': 'https://mexico.quadratin.com.mx/www/wp-content/uploads/2024/02/Bad-Bunny-1160x700.jpg',
-    'coldplay': 'https://upload.wikimedia.org/wikipedia/en/4/46/Coldplay_-_Viva_la_Vida.png',
-    'beele': 'https://upload.wikimedia.org/wikipedia/en/f/fc/Queen_TheWorks.png',
-    'calibre50': 'https://upload.wikimedia.org/wikipedia/en/b/b7/NirvanaNevermindalbumcover.jpg',
+﻿function convertDate(input) {
+    const match = input.match(/\/Date\((\d+)\)\//);
+    if (match) {
+        const milliseconds = parseInt(match[1], 10);
+        return new Date(milliseconds);
+    }
+    return null;
+}
+
+const imagenesBandas = {
+    'coldplay': 'https://example.com/imagenes/coldplay.jpg',
+    'u2': 'https://example.com/imagenes/u2.jpg',
+    'maroon 5': 'https://example.com/imagenes/maroon5.jpg',
+    'metallica': 'https://example.com/imagenes/metallica.jpg',
+    'queen': 'https://example.com/imagenes/queen.jpg'
 };
 function ProcesarCreacion() {
 
@@ -65,30 +75,42 @@ function ProcesarConsulta() {
                 let imgURL = imagenesBandas[nombreBanda] || 'https://via.placeholder.com/300x200?text=Concierto';
                 let colapsableId = `detalle-${index}`;
 
+                let fechaObj = convertDate(concierto.Fecha);
+                let fechaFormateada = fechaObj?.toLocaleDateString('es-CR', {
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric'
+                });
+                let horaFormateada = fechaObj?.toLocaleTimeString('es-CR', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
                 let card = `
-                    <div class="col-md-4 col-lg-3 mb-4">
-                        <div class="card h-100 text-center">
-                            <img src="${imgURL}" class="card-img-top" alt="${concierto.Banda}">
-                            <div class="card-body">
-                                <h5 class="card-title">${concierto.Banda}</h5>
-                                <p><strong>Género:</strong> ${concierto.Genero}</p>
+                            <div class="col-md-4 col-lg-3 mb-4">
+                                <div class="card h-100 text-center">
+                                    <img src="${imgURL}" class="card-img-top" alt="${concierto.Banda}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${concierto.Banda}</h5>
+                                        <p><strong>Género:</strong> ${concierto.Genero}</p>
 
-                                <button class="btn btn-outline-primary btn-sm mb-2" data-bs-toggle="collapse" data-bs-target="#${colapsableId}">
-                                    Más detalles
-                                </button>
+                                        <button class="btn btn-outline-primary btn-sm mb-2" data-bs-toggle="collapse" data-bs-target="#${colapsableId}">
+                                            Más detalles
+                                        </button>
 
-                                <div class="collapse" id="${colapsableId}">
-                                    <p><strong>Fecha:</strong> ${concierto.Fecha}</p>
-                                    <p><strong>Hora:</strong> ${concierto.Hora}</p>
-                                    <p><strong>País:</strong> ${concierto.Pais}</p>
-                                    <p><strong>Lugar:</strong> ${concierto.Lugar}</p>
+                                        <div class="collapse" id="${colapsableId}">
+                                            <p><strong>Fecha:</strong> ${fechaFormateada}</p>
+                                            <p><strong>Hora:</strong> ${horaFormateada}</p>
+                                            <p><strong>País:</strong> ${concierto.Pais}</p>
+                                            <p><strong>Lugar:</strong> ${concierto.Lugar}</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                `;
+                        `;
                 contenedor.insertAdjacentHTML('beforeend', card);
             });
+
 
         },
         error: function (error) {
@@ -96,8 +118,6 @@ function ProcesarConsulta() {
         }
     });
 }
-
-
 
 
 window.onload = function () {
