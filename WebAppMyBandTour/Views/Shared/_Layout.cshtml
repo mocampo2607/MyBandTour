@@ -27,26 +27,27 @@
                     var nombreUsuario = Session["NOMBRE_USUARIO"]?.ToString();
                 }
 
-                <li class="nav-item d-flex align-items-center ms-auto">
-                    @if (autenticado == "SI")
-                    {
-                        <div class="dropdown">
-                            <button class="btn btn-azul dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                @nombreUsuario
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                                <li><a class="dropdown-item" href="@Url.Action("CerrarSesion", "Empresa")">Cerrar sesión</a></li>
-                            </ul>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="btn-group ms-auto me-0">
-                            <a href="@Url.Action("Login", "Empresa")" class="btn btn-azul">Iniciar Sesión</a>
-                            <a href="@Url.Action("Registrarse", "Empresa")" class="btn btn-azul">Registrarse</a>
-                        </div>
-                    }
-                </li>
+            <li class="nav-item d-flex align-items-center ms-auto">
+                @if (autenticado == "SI")
+                {
+                    <div class="dropdown">
+                        <button id="dropdownMenuButton" class="btn btn-azul dropdown-toggle" type="button" onclick="toggleDropdown()">
+                            @nombreUsuario
+                        </button>
+                        <ul id="dropdownMenu" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <li><a class="dropdown-item" href="javascript:void(0)" onclick="CerrarSesion()">Cerrar sesión</a></li>
+                        </ul>
+                    </div>
+
+                }
+                else
+                {
+                    <div class="btn-group ms-auto me-0">
+                        <a href="@Url.Action("Login", "Empresa")" class="btn btn-azul">Iniciar Sesión</a>
+                        <a href="@Url.Action("Registrarse", "Empresa")" class="btn btn-azul">Registrarse</a>
+                    </div>
+                }
+            </li>
             </div>
         </div>
     </nav>

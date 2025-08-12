@@ -12,6 +12,7 @@ namespace WebAppMyBandTour.Controllers
     {
         public ActionResult Inicio()
         {
+            ViewBag.NombreUsuario = Session["NOMBRE_USUARIO"];
             return View();
         }
 
@@ -81,6 +82,7 @@ namespace WebAppMyBandTour.Controllers
                 if (usuario == "admin") 
                 {
                     Session["ROL"] = "admin";
+                    Session["NOMBRE_USUARIO"] = usuario;
                 }
                 else
                 {
@@ -95,9 +97,11 @@ namespace WebAppMyBandTour.Controllers
             }
         }
 
-
-
-
+        public JsonResult CerrarSesion()
+        {
+            Session.Abandon();
+            return Json(new { Estado = "OK" });
+        }
 
     }
 }
