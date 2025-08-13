@@ -19,35 +19,39 @@
             </button>
             <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
-                    <li>@Html.ActionLink("Inicio", "Inicio", "Empresa", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Dashboard", "Dashboard", "Empresa", new { area = "" }, new { @class = "nav-link" })</li>
+                    @if (Session["ROL"]?.ToString() == "admin")
+                    {
+                        <li>@Html.ActionLink("Inicio", "Inicio", "Empresa", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Dashboard", "Dashboard", "Empresa", new { area = "" }, new { @class = "nav-link" })</li>
+                    }
                 </ul>
+
                 @{
                     var autenticado = Session["AUTENTICADO"]?.ToString();
                     var nombreUsuario = Session["NOMBRE_USUARIO"]?.ToString();
                 }
 
-            <li class="nav-item d-flex align-items-center ms-auto">
-                @if (autenticado == "SI")
-                {
-                    <div class="dropdown">
-                        <button id="dropdownMenuButton" class="btn btn-azul dropdown-toggle" type="button" onclick="toggleDropdown()">
-                            @nombreUsuario
-                        </button>
-                        <ul id="dropdownMenu" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <li><a class="dropdown-item" href="javascript:void(0)" onclick="CerrarSesion()">Cerrar sesión</a></li>
-                        </ul>
-                    </div>
-
-                }
-                else
-                {
-                    <div class="btn-group ms-auto me-0">
-                        <a href="@Url.Action("Login", "Empresa")" class="btn btn-azul">Iniciar Sesión</a>
-                        <a href="@Url.Action("Registrarse", "Empresa")" class="btn btn-azul">Registrarse</a>
-                    </div>
-                }
-            </li>
+                <li class="nav-item d-flex align-items-center ms-auto">
+                    @if (autenticado == "SI" && !string.IsNullOrEmpty(nombreUsuario))
+                    {
+                        <div class="dropdown">
+                            <input type="checkbox" id="toggleDropdown" hidden />
+                            <label for="toggleDropdown" id="dropdownMenuButton" class="btn btn-azul dropdown-button-label">
+                                @nombreUsuario
+                            </label>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="javascript:void(0)" onclick="CerrarSesion()">Cerrar sesión</a></li>
+                            </ul>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="btn-group ms-auto me-0">
+                            <a href="@Url.Action("Login", "Empresa")" class="btn btn-azul">Iniciar Sesión</a>
+                            <a href="@Url.Action("Registrarse", "Empresa")" class="btn btn-azul">Registrarse</a>
+                        </div>
+                    }
+                </li>
             </div>
         </div>
     </nav>

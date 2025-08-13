@@ -244,12 +244,13 @@ footer {
     display: inline-block;
 }
 
+/* Menú oculto por defecto */
 .dropdown-menu {
     position: absolute;
     top: 100%;
     right: 0;
     z-index: 1000;
-    display: none;
+    display: block; /* Lo ponemos block para poder animar opacidad y transform, pero con opacity y transform lo ocultamos */
     min-width: 180px;
     padding: 0.5rem 0;
     margin-top: 0.5rem;
@@ -258,16 +259,20 @@ footer {
     border-radius: 0.5rem;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     transition: opacity 0.3s ease, transform 0.3s ease;
+    /* Oculto: */
     opacity: 0;
+    pointer-events: none;
     transform: translateY(-10px);
 }
 
-    .dropdown-menu.show {
-        display: block;
-        opacity: 1;
-        transform: translateY(0);
-    }
+/* Cuando el checkbox está activo, mostramos el menú */
+#toggleDropdown:checked + label + .dropdown-menu {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
 
+/* Items */
 .dropdown-item {
     padding: 0.5rem 1rem;
     font-size: 0.95rem;
@@ -283,10 +288,12 @@ footer {
         border-radius: 0.25rem;
     }
 
-/* Estilo para el botón del usuario */
+/* Botón usuario */
 .btn-azul.dropdown-toggle {
     position: relative;
     padding-right: 2rem;
+    cursor: pointer;
+    user-select: none;
 }
 
     .btn-azul.dropdown-toggle::after {
@@ -299,32 +306,57 @@ footer {
         color: white;
     }
 
+/* Ocultar el checkbox */
+#toggleDropdown {
+    display: none;
+}
+
 /* ======= LOGIN WRAPPER ======= */
 .login-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: calc(100vh - 200px); /* Ajusta según navbar y footer */
-    padding: 2rem 1rem;
+    min-height: calc(100vh - 200px);
     background-color: #f5f5f5;
 }
 
+/* Contenedor principal con panel lateral */
 #divLogin {
+    display: flex;
+    max-width: 700px;
+    width: 100%;
     background-color: white;
-    padding: 2rem;
     border-radius: 1rem;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
-    width: 100%;
-    text-align: center;
+    overflow: hidden;
 }
 
-    #divLogin h2 {
-        font-size: 1.8rem;
-        color: #25657c;
-        margin-bottom: 2rem;
+    /* Panel lateral */
+    #divLogin::before {
+        content: "";
+        background-color: #287ba0; /* Celeste principal */
+        width: 40%;
+        display: block;
     }
 
+    /* Contenido del formulario */
+    #divLogin form {
+        flex: 1;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    /* Título */
+    #divLogin h2 {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        color: #287ba0;
+    }
+
+    /* Inputs */
     #divLogin input[type="text"],
     #divLogin input[type="password"] {
         width: 100%;
@@ -332,55 +364,151 @@ footer {
         margin-bottom: 1.2rem;
         border: 1px solid #ced4da;
         border-radius: 0.5rem;
+        background-color: #f8f9fa;
         font-size: 1rem;
-        transition: border-color 0.3s ease;
     }
 
-    #divLogin input:focus {
-        border-color: #287ba0;
-        outline: none;
-    }
-
+    /* Botón */
     #divLogin button {
         background-color: #287ba0;
         color: white;
         border: none;
-        padding: 0.75rem 1.5rem;
+        padding: 0.75rem;
         border-radius: 0.5rem;
         font-size: 1rem;
         cursor: pointer;
         transition: background-color 0.3s ease;
-        width: 100%;
-        margin-top: 0.5rem;
     }
 
         #divLogin button:hover {
             background-color: #226684;
         }
 
+/* Mensaje de error */
 #lblMensaje {
     color: #d9534f;
-    font-size: 1rem;
-    margin-top: 0.75rem;
-    min-height: 1.2em;
-    transition: opacity 0.3s ease;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
 }
 
+/* Enlaces */
 .login-links {
     margin-top: 1.5rem;
     font-size: 0.9rem;
+    text-align: center;
     display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 0.5rem;
+    align-items: center;
 }
 
-    .login-links a {
-        color: #287ba0;
-        text-decoration: none;
-        transition: color 0.3s ease;
+.btn.btn-azul {
+    background-color: #287ba0;
+    color: white;
+    padding: 0.5rem 1.2rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+    .btn.btn-azul:hover {
+        background-color: #226684;
     }
 
-        .login-links a:hover {
-            color: #226684;
+/* ======= CONTENEDOR PRINCIPAL CON PANEL LATERAL REGISTRO ======= */
+#divRegistro {
+    display: flex;
+    max-width: 700px;
+    width: 100%;
+    background-color: white;
+    border-radius: 1rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+    /* Panel lateral azul */
+    #divRegistro::before {
+        content: "";
+        background-color: #287ba0; /* Celeste principal */
+        width: 40%;
+        display: block;
+    }
+
+    /* Contenido del formulario */
+    #divRegistro form {
+        flex: 1;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    /* Título */
+    #divRegistro h2 {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        color: #287ba0;
+    }
+
+    /* Inputs */
+    #divRegistro input[type="text"],
+    #divRegistro input[type="password"],
+    #divRegistro input[type="email"] {
+        width: 100%;
+        padding: 0.75rem;
+        margin-bottom: 1.2rem;
+        border: 1px solid #ced4da;
+        border-radius: 0.5rem;
+        background-color: #f8f9fa;
+        font-size: 1rem;
+    }
+
+    /* Botón */
+    #divRegistro button {
+        background-color: #287ba0;
+        color: white;
+        border: none;
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        #divRegistro button:hover {
+            background-color: #226684;
         }
+
+/* Mensaje de error */
+#lblMensajeRegistro {
+    color: #d9534f;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+/* Enlaces y botones */
+#divRegistro .login-links {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+#divRegistro .btn.btn-azul {
+    background-color: #287ba0;
+    color: white;
+    padding: 0.5rem 1.2rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+    #divRegistro .btn.btn-azul:hover {
+        background-color: #226684;
+    }

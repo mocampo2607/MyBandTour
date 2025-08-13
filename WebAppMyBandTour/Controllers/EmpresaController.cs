@@ -12,25 +12,14 @@ namespace WebAppMyBandTour.Controllers
     {
         public ActionResult Inicio()
         {
-            ViewBag.NombreUsuario = Session["NOMBRE_USUARIO"];
-            return View();
+        return View();
         }
 
         public ActionResult Dashboard()
         {
-            if (Session["AUTENTICADO"] != null)
+            if (Session["AUTENTICADO"]?.ToString() == "SI" && Session["ROL"]?.ToString() == "admin")
             {
-                if (Session["AUTENTICADO"]?.ToString() == "SI" && Session["ROL"]?.ToString() == "admin")
-                {
-                    return View();
-                }
-                else if (Session["AUTENTICADO"]?.ToString() == "SI") {
-                    return RedirectToAction("Inicio");
-                }
-                else
-                {
-                    return RedirectToAction("Login");
-                }
+                return View();
             }
             else
             {
@@ -40,7 +29,21 @@ namespace WebAppMyBandTour.Controllers
 
         public ActionResult Login()
         {
-            return View();
+            if (Session["AUTENTICADO"]?.ToString() == "SI" && Session["ROL"]?.ToString() == "admin")
+            {
+                ViewBag.NombreUsuario = Session["NOMBRE_USUARIO"];
+                return RedirectToAction("Dashboard");
+            }
+            else if (Session["AUTENTICADO"]?.ToString() == "SI" && Session["ROL"]?.ToString() == "normal")
+            {
+
+                ViewBag.NombreUsuario = Session["NOMBRE_USUARIO"];
+                return RedirectToAction("Inicio");
+            }
+            else
+            {
+                return View();
+            }
         }
 
         public ActionResult Registrarse()
@@ -63,6 +66,22 @@ namespace WebAppMyBandTour.Controllers
             }
         }
 
+        public JsonResult CrearUsuario(string usuario, string password)
+        {
+            BD_MyBandTourEntities conexion = new BD_MyBandTourEntities();
+            ObjectParameter Resultado = new ObjectParameter("Resultado", typeof(int));
+            conexion.pr_InsertarUsuario(usuario, password, Resultado);
+
+            if ((int)Resultado.Value == 0)
+            {
+                return Json(new { Estado = "Usuario creado exitosamente" });
+            }
+            else
+            {
+                return Json(new { Estado = "Error al crear el usuario." });
+            }
+        }
+
         public JsonResult ConsultarConciertos()
         {
             BD_MyBandTourEntities conexion = new BD_MyBandTourEntities();
@@ -76,18 +95,20 @@ namespace WebAppMyBandTour.Controllers
             BD_MyBandTourEntities conexion = new BD_MyBandTourEntities();
             ObjectParameter Resultado = new ObjectParameter("Resultado", typeof(int));
             var dataSetUsuario = conexion.pr_Autenticar(usuario, password, Resultado);
-            if ((int)Resultado.Value == 1) 
+            if ((int)Resultado.Value == 1)
             {
                 Session["AUTENTICADO"] = "SI";
-                if (usuario == "admin") 
+                Session["NOMBRE_USUARIO"] = usuario; // 🔹 Guardar siempre
+
+                if (usuario == "admin")
                 {
                     Session["ROL"] = "admin";
-                    Session["NOMBRE_USUARIO"] = usuario;
                 }
                 else
                 {
                     Session["ROL"] = "normal";
                 }
+
                 return Json(new { Estado = "OK" });
             }
             else

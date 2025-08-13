@@ -4,5 +4,28 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Registrarse</h2>
+<div class="login-wrapper">
 
+    <div id="divRegistro">
+        <form>
+            <h2>Crear Cuenta</h2>
+
+            <input type="text" id="txtNuevoUsuario" placeholder="Digite su usuario" />
+            <input type="password" id="txtNuevoPassword" placeholder="Digite su contraseña" />
+
+            <button type="button" onclick="RegistrarUsuario();">Registrarse</button>
+
+            <div id="lblMensajeRegistro"></div>
+
+            <div class="login-links">
+                <span>¿Ya tienes cuenta?</span>
+                <a href="@Url.Action("Login", "Empresa")" class="btn btn-azul">Iniciar Sesión</a>
+            </div>
+
+            <p class="text-center mt-3">
+                <a href="@Url.Action("Inicio", "Empresa")">Volver al Inicio</a>
+            </p>
+        </form>
+    </div>
+
+</div>

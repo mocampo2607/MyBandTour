@@ -46,7 +46,7 @@ function CerrarSesion() {
         success: function (respuesta) {
             console.log(respuesta);
             if (respuesta.Estado === 'OK') {
-                window.location.replace('/Empresa/Login');
+                window.location.replace('/Empresa/Inicio');
             } else {
                 alert('No se pudo cerrar sesión');
             }
@@ -191,11 +191,29 @@ function toggleDropdown() {
     menu.classList.toggle('show');
 }
 
-// Opcional: cerrar dropdown si se hace click fuera
-window.addEventListener('click', function (e) {
-    const button = document.getElementById('dropdownMenuButton');
-    const menu = document.getElementById('dropdownMenu');
-    if (!button.contains(e.target) && !menu.contains(e.target)) {
-        menu.classList.remove('show');
-    }
-});
+
+function RegistrarUsuario() {
+    const datos = {
+        usuario: document.getElementById('txtNuevoUsuario').value,
+        password: document.getElementById('txtNuevoPassword').value
+    };
+
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: '/Empresa/CrearUsuario',
+        data: datos,
+        success: function (respuesta) {
+            console.log(respuesta);
+            if (respuesta.Estado === 'Usuario creado exitosamente') {
+                alert('Usuario creado exitosamente');
+                Object.keys(datos).forEach(id => document.getElementById(`txt${id.charAt(0).toUpperCase() + id.slice(1)}`).value = '');
+            } else {
+                alert('Falló la creación del usuario');
+            }
+        },
+        error: function (error) {
+            console.error('Error:', error);
+        }
+    });
+}
