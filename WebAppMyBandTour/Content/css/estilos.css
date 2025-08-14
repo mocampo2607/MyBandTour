@@ -512,3 +512,144 @@ footer {
     #divRegistro .btn.btn-azul:hover {
         background-color: #226684;
     }
+
+/* ===== DASHBOARD ===== */
+.dashboard-container {
+    display: flex;
+    font-family: Arial, sans-serif;
+}
+
+/* Sidebar */
+.dashboard-sidebar {
+    width: 220px;
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-right: 2px solid #ddd;
+}
+
+    .dashboard-sidebar h2 {
+        margin-bottom: 15px;
+        font-size: 20px;
+    }
+
+    .dashboard-sidebar ul {
+        list-style: none;
+        padding: 0;
+    }
+
+        .dashboard-sidebar ul li {
+            margin-bottom: 10px;
+        }
+
+            .dashboard-sidebar ul li a {
+                text-decoration: none;
+                color: #333;
+                font-size: 15px;
+            }
+
+                .dashboard-sidebar ul li a:hover {
+                    text-decoration: underline;
+                }
+
+/* Main content */
+.dashboard-main {
+    flex: 1;
+    padding: 20px;
+    background-color: #fff;
+}
+
+    .dashboard-main h2 {
+        margin-bottom: 15px;
+    }
+
+/* Table styles */
+.dashboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+}
+
+    .dashboard-table th,
+    .dashboard-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .dashboard-table th {
+        background-color: #f0f0f0;
+    }
+
+/* Buttons */
+.btn-ver, .btn-borrar {
+    border: none;
+    padding: 5px 8px;
+    margin: 0 2px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.btn-ver {
+    background-color: #e0e7ff;
+}
+
+.btn-borrar {
+    background-color: #ffe0e0;
+}
+
+
+.create-concert-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 60px); /* Ajusta si tienes header */
+    background-color: #f4f6f8;
+    padding: 20px;
+}
+
+    .create-concert-container .form-wrapper {
+        background: white;
+        padding: 25px 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        width: 100%;
+        max-width: 400px;
+    }
+
+        .create-concert-container .form-wrapper h4 {
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            color: #333;
+        }
+
+        .create-concert-container .form-wrapper label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .create-concert-container .form-wrapper input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .create-concert-container .form-wrapper button {
+            width: 100%;
+            background-color: #00796b;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+            .create-concert-container .form-wrapper button:hover {
+                background-color: #005f52;
+            }

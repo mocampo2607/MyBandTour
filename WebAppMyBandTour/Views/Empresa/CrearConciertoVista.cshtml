@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "CrearConciertoVista";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="create-concert-container">
+    <div class="form-wrapper">
+        <h4>Crear un concierto</h4>
+
+        <label>Código:</label>
+        <input type="text" id="txtCodigo" name="txtCodigo" placeholder="Ingrese el código:" />
+
+        <label>Banda:</label>
+        <input type="text" id="txtBanda" name="txtBanda" placeholder="Ingrese la banda:" />
+
+        <label>Género:</label>
+        <input type="text" id="txtGenero" name="txtGenero" placeholder="Ingrese el género:" />
+
+        <label>Fecha del concierto:</label>
+        <input type="date" id="txtFecha" name="txtFecha" />
+
+        <label>Hora del concierto:</label>
+        <input type="time" id="txtHora" name="txtHora" />
+
+        <label>País:</label>
+        <input type="text" id="txtPais" name="txtPais" placeholder="Ingrese el país:" />
+
+        <label>Lugar:</label>
+        <input type="text" id="txtLugar" name="txtLugar" placeholder="Ingrese el lugar:" />
+
+        <button id="btnCrear" onclick="ProcesarCreacion();">Crear concierto</button>
+
+        <p class="text-center mt-3">
+            <a href="@Url.Action("Dashboard", "Empresa")">Volver al Dashboard</a>
+        </p>
+    </div>
+</div>
+

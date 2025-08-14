@@ -4,37 +4,45 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div id="divCrear">
-    <h4>Crear un concierto: </h4>
-    <label>Código:</label>
-    <input type="text" id="txtCodigo" name="txtCodigo" placeholder="Ingrese el código:" />
-    <br />
+<div class="dashboard-container">
+    <!-- Menú lateral -->
+    <aside class="dashboard-sidebar">
 
-    <label>Banda:</label>
-    <input type="text" id="txtBanda" name="txtBanda" placeholder="Ingrese la banda:" />
-    <br />
+        <ul>
+            <li><a href="@Url.Action("CrearConciertoVista", "Empresa")" class="btn btn-azul">Crear Concierto</a></li>
+            <li><a href="@Url.Action("BorrarConciertoVista", "Empresa")" class="btn btn-azul">Borrar Concierto</a></li>
+        </ul>
+    </aside>
 
-    <label>Género:</label>
-    <input type="text" id="txtGenero" name="txtGenero" placeholder="Ingrese el género:" />
-    <br />
+    <!-- Contenido principal -->
+    <main class="dashboard-main">
+        <h2>Lista de Conciertos</h2>
 
-    <label>Fecha del concierto:</label>
-    <input type="date" id="txtFecha" name="txtFecha" />
-    <br />
+        <!-- Campo de búsqueda -->
+        <input type="text" id="busqueda" placeholder="Buscar banda..." oninput="buscarConciertosTabla()" />
 
-    <label>Hora del concierto:</label>
-    <input type="time" id="txtHora" name="txtHora" />
-    <br />
+        <table class="dashboard-table">
+            <thead>
+                <tr>
+                    <th>Acciones</th>
+                    <th>Código</th>
+                    <th>Banda</th>
+                    <th>Género</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>País</th>
+                    <th>Lugar</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
 
-    <label>País:</label>
-    <input type="text" id="txtPais" name="txtPais" placeholder="Ingrese el país:" />
-    <br />
+    </main>
 
-    <label>Lugar:</label>
-    <input type="text" id="txtLugar" name="txtLugar" placeholder="Ingrese el lugar:" />
-    <br />
-
-    <button id="btnCrear" onclick="ProcesarCreacion();">Crear concierto</button>
 </div>
 
+<script>
+    todosLosConciertos = @Html.Raw(Json.Encode(Model));
+    mostrarConciertosTabla(todosLosConciertos);
+</script>
 

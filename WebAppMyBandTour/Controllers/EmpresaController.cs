@@ -50,6 +50,15 @@ namespace WebAppMyBandTour.Controllers
         {
             return View();
         }
+        
+        public ActionResult CrearConciertoVista() 
+        {
+            return View();
+        }
+        public ActionResult BorrarConciertoVista()
+        {
+            return View();
+        }
 
         public JsonResult CrearConcierto(string codigo, string banda, string genero, DateTime fecha, TimeSpan hora, string pais, string lugar) { 
             BD_MyBandTourEntities conexion = new BD_MyBandTourEntities();

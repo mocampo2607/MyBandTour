@@ -237,6 +237,8 @@
     <Content Include="Views\Empresa\Dashboard.cshtml" />
     <Content Include="Views\Empresa\Login.cshtml" />
     <Content Include="Views\Empresa\Registrarse.cshtml" />
+    <Content Include="Views\Empresa\CrearConciertoVista.cshtml" />
+    <Content Include="Views\Empresa\BorrarConciertoVista.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

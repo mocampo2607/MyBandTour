@@ -217,3 +217,78 @@ function RegistrarUsuario() {
         }
     });
 }
+
+function mostrarConciertosTabla(lista) {
+    console.log("📢 mostrarConciertosTabla() llamada con lista:", lista);
+
+    const tbody = document.querySelector('.dashboard-table tbody');
+    console.log("📢 tbody encontrado:", tbody);
+
+    if (!tbody) {
+        console.error("❌ No se encontró el tbody. Revisa el HTML.");
+        return;
+    }
+
+    tbody.innerHTML = ''; // limpiar tabla
+
+    lista.forEach((concierto, index) => {
+        console.log(`🎵 Procesando concierto ${index}:`, concierto);
+
+        const nombreBanda = concierto.Banda?.toLowerCase().trim();
+        const imgURL = imagenesBandas[nombreBanda] || 'https://via.placeholder.com/100x60?text=Concierto';
+
+        console.log(`🎨 Imagen para ${concierto.Banda}:`, imgURL);
+
+        const fechaObj = convertDate(concierto.Fecha);
+        console.log(`📅 Fecha convertida:`, fechaObj);
+
+        const fechaFormateada = fechaObj?.toLocaleDateString('es-CR', { day: '2-digit', month: 'long', year: 'numeric' });
+        const horaFormateada = fechaObj?.toLocaleTimeString('es-CR', { hour: '2-digit', minute: '2-digit' });
+
+        const fila = document.createElement('tr');
+        fila.innerHTML = `
+            <td>
+                <button class="btn-ver" data-index="${index}">👁</button>
+                <button class="btn-borrar" data-index="${index}">🗑</button>
+            </td>
+            <td>${concierto.Codigo || ''}</td>
+            <td>
+                <img src="${imgURL}" alt="${concierto.Banda}" style="width:60px;height:auto;vertical-align:middle;margin-right:5px;">
+                ${concierto.Banda}
+            </td>
+            <td>${concierto.Genero}</td>
+            <td>${fechaFormateada}</td>
+            <td>${horaFormateada}</td>
+            <td>${concierto.Pais}</td>
+            <td>${concierto.Lugar}</td>
+        `;
+        tbody.appendChild(fila);
+    });
+}
+
+function buscarConciertosTabla() {
+    console.log("🔍 Ejecutando buscarConciertosTabla()");
+    const texto = document.getElementById('busqueda').value.toLowerCase();
+    console.log("🔍 Texto buscado:", texto);
+
+    console.log("📦 todosLosConciertos actual:", todosLosConciertos);
+    const filtrados = todosLosConciertos.filter(concierto =>
+        concierto.Banda?.toLowerCase().includes(texto)
+    );
+    console.log("📊 Resultados filtrados:", filtrados);
+
+    const tbody = document.querySelector('.dashboard-table tbody');
+    if (filtrados.length === 0) {
+        console.warn("⚠ No se encontraron conciertos");
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="8" class="text-center text-muted">
+                    No se encontraron conciertos para "<strong>${texto}</strong>".
+                </td>
+            </tr>
+        `;
+    } else {
+        mostrarConciertosTabla(filtrados);
+    }
+}
+
