@@ -4,5 +4,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>BorrarConciertoVista</h2>
-
+<div id="divBorrarConcierto" class="form-card">
+    <h3>Borrar Concierto</h3>
+    <label for="txtCodigoBorrar">Código del concierto:</label>
+    <input type="text" id="txtCodigoBorrar" class="form-control" placeholder="Ingrese el código" />
+    <br />
+    <button class="btn btn-danger" onclick="ProcesarEliminacion()">Borrar</button>
+    <p class="text-center mt-3">
+        <a href="@Url.Action("Dashboard", "Empresa")" class="link-volver">Volver al Dashboard</a>
+    </p>
+</div>

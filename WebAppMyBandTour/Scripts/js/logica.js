@@ -8,6 +8,16 @@ function convertDate(input) {
     return null;
 }
 
+function formatearFecha(fecha) {
+    const fechaObj = convertDate(fecha);
+    if (!fechaObj) return '';
+    return fechaObj.toLocaleDateString('es-CR', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric'
+    });
+}
+
 const imagenesBandas = {
     "coldplay": "https://link-a-la-imagen.com/coldplay.jpg",
     "metallica": "https://link-a-la-imagen.com/metallica.jpg"
@@ -218,77 +228,81 @@ function RegistrarUsuario() {
     });
 }
 
-function mostrarConciertosTabla(lista) {
-    console.log("📢 mostrarConciertosTabla() llamada con lista:", lista);
+function ConsultarConciertos() {
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: '/Empresa/ConsultarConciertos',
+        success: function (respuesta) {
+            const lista = respuesta.Lista;
+            const tbody = document.querySelector('#tablaConciertos tbody');
+            tbody.innerHTML = ''; // limpiar la tabla antes de llenar
 
-    const tbody = document.querySelector('.dashboard-table tbody');
-    console.log("📢 tbody encontrado:", tbody);
+            if (lista && lista.length > 0) {
+                lista.forEach(c => {
+                    const fechaObj = convertDate(c.Fecha);
+                    const fechaFormateada = fechaObj
+                        ? fechaObj.toLocaleDateString('es-CR', { day: '2-digit', month: 'long', year: 'numeric' })
+                        : '';
+                    const horaFormateada = fechaObj
+                        ? fechaObj.toLocaleTimeString('es-CR', { hour: '2-digit', minute: '2-digit' })
+                        : '';
 
-    if (!tbody) {
-        console.error("❌ No se encontró el tbody. Revisa el HTML.");
-        return;
-    }
-
-    tbody.innerHTML = ''; // limpiar tabla
-
-    lista.forEach((concierto, index) => {
-        console.log(`🎵 Procesando concierto ${index}:`, concierto);
-
-        const nombreBanda = concierto.Banda?.toLowerCase().trim();
-        const imgURL = imagenesBandas[nombreBanda] || 'https://via.placeholder.com/100x60?text=Concierto';
-
-        console.log(`🎨 Imagen para ${concierto.Banda}:`, imgURL);
-
-        const fechaObj = convertDate(concierto.Fecha);
-        console.log(`📅 Fecha convertida:`, fechaObj);
-
-        const fechaFormateada = fechaObj?.toLocaleDateString('es-CR', { day: '2-digit', month: 'long', year: 'numeric' });
-        const horaFormateada = fechaObj?.toLocaleTimeString('es-CR', { hour: '2-digit', minute: '2-digit' });
-
-        const fila = document.createElement('tr');
-        fila.innerHTML = `
-            <td>
-                <button class="btn-ver" data-index="${index}">👁</button>
-                <button class="btn-borrar" data-index="${index}">🗑</button>
-            </td>
-            <td>${concierto.Codigo || ''}</td>
-            <td>
-                <img src="${imgURL}" alt="${concierto.Banda}" style="width:60px;height:auto;vertical-align:middle;margin-right:5px;">
-                ${concierto.Banda}
-            </td>
-            <td>${concierto.Genero}</td>
-            <td>${fechaFormateada}</td>
-            <td>${horaFormateada}</td>
-            <td>${concierto.Pais}</td>
-            <td>${concierto.Lugar}</td>
-        `;
-        tbody.appendChild(fila);
+                    const fila = `
+                        <tr>
+                            <td>${c.Codigo}</td>
+                            <td>${c.Banda}</td>
+                            <td>${c.Genero}</td>
+                            <td>${fechaFormateada}</td>
+                            <td>${horaFormateada}</td>
+                            <td>${c.Pais}</td>
+                            <td>${c.Lugar}</td>
+                        </tr>
+                    `;
+                    tbody.innerHTML += fila;
+                });
+            } else {
+                tbody.innerHTML = '<tr><td colspan="7">No hay conciertos registrados</td></tr>';
+            }
+        },
+        error: function (error) {
+            console.error('Error:', error);
+        }
     });
 }
 
-function buscarConciertosTabla() {
-    console.log("🔍 Ejecutando buscarConciertosTabla()");
-    const texto = document.getElementById('busqueda').value.toLowerCase();
-    console.log("🔍 Texto buscado:", texto);
+// 🔹 Llamar automáticamente al cargar la página
+document.addEventListener("DOMContentLoaded", function () {
+    configurarDropdown();
+    ProcesarConsulta();
+    ConsultarConciertos(); // ← se carga la tabla automáticamente
+});
 
-    console.log("📦 todosLosConciertos actual:", todosLosConciertos);
-    const filtrados = todosLosConciertos.filter(concierto =>
-        concierto.Banda?.toLowerCase().includes(texto)
-    );
-    console.log("📊 Resultados filtrados:", filtrados);
+function ProcesarEliminacion() {
+    const codigo = document.getElementById('txtCodigoBorrar').value;
 
-    const tbody = document.querySelector('.dashboard-table tbody');
-    if (filtrados.length === 0) {
-        console.warn("⚠ No se encontraron conciertos");
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="8" class="text-center text-muted">
-                    No se encontraron conciertos para "<strong>${texto}</strong>".
-                </td>
-            </tr>
-        `;
-    } else {
-        mostrarConciertosTabla(filtrados);
+    if (!codigo.trim()) {
+        alert('Por favor ingrese el código del concierto a eliminar.');
+        return;
     }
+
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: '/Empresa/BorrarConcierto',
+        data: { codigo: codigo },
+        success: function (respuesta) {
+            console.log(respuesta);
+            if (respuesta.Estado === 'Concierto eliminado exitosamente') {
+                alert('Concierto eliminado exitosamente');
+                document.getElementById('txtCodigoBorrar').value = '';
+            } else {
+                alert('No se pudo eliminar el concierto.');
+            }
+        },
+        error: function (error) {
+            console.error('Error:', error);
+        }
+    });
 }
 

@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -7,7 +6,6 @@
 <div class="dashboard-container">
     <!-- Menú lateral -->
     <aside class="dashboard-sidebar">
-
         <ul>
             <li><a href="@Url.Action("CrearConciertoVista", "Empresa")" class="btn btn-azul">Crear Concierto</a></li>
             <li><a href="@Url.Action("BorrarConciertoVista", "Empresa")" class="btn btn-azul">Borrar Concierto</a></li>
@@ -15,16 +13,12 @@
     </aside>
 
     <!-- Contenido principal -->
-    <main class="dashboard-main">
-        <h2>Lista de Conciertos</h2>
-
-        <!-- Campo de búsqueda -->
-        <input type="text" id="busqueda" placeholder="Buscar banda..." oninput="buscarConciertosTabla()" />
-
-        <table class="dashboard-table">
+    <main class="tabla-container">
+        <h3>Lista de Conciertos</h3>
+        <!-- 👇 Aquí ya tiene id + class -->
+        <table id="tablaConciertos" class="dashboard-table">
             <thead>
                 <tr>
-                    <th>Acciones</th>
                     <th>Código</th>
                     <th>Banda</th>
                     <th>Género</th>
@@ -34,15 +28,9 @@
                     <th>Lugar</th>
                 </tr>
             </thead>
-            <tbody></tbody>
+            <tbody>
+                <!-- Datos dinámicos desde JS -->
+            </tbody>
         </table>
-
     </main>
-
 </div>
-
-<script>
-    todosLosConciertos = @Html.Raw(Json.Encode(Model));
-    mostrarConciertosTabla(todosLosConciertos);
-</script>
-

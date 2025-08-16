@@ -653,3 +653,167 @@ footer {
             .create-concert-container .form-wrapper button:hover {
                 background-color: #005f52;
             }
+
+/* Layout principal */
+.dashboard-container {
+    display: flex;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 2rem auto;
+}
+
+/* Menú lateral */
+.dashboard-sidebar {
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+    .dashboard-sidebar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .dashboard-sidebar li {
+        margin-bottom: 1rem;
+    }
+
+.btn.btn-azul {
+    display: block;
+    padding: 10px 15px;
+    background-color: #007BFF;
+    color: #fff;
+    border-radius: 6px;
+    text-align: center;
+    text-decoration: none;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+    .btn.btn-azul:hover {
+        background-color: #0056b3;
+    }
+
+/* Contenido principal */
+.tabla-container {
+    flex: 1;
+}
+
+    .tabla-container h3 {
+        color: #007BFF;
+        font-family: 'Segoe UI', sans-serif;
+        margin-bottom: 1rem;
+    }
+
+/* Tabla */
+.dashboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+    /* Encabezado */
+    .dashboard-table thead {
+        background: linear-gradient(90deg, #007BFF, #00BFFF);
+        color: white;
+    }
+
+    .dashboard-table th {
+        padding: 14px;
+        text-align: left;
+        font-weight: 600;
+        font-size: 15px;
+        color: black; 
+    }
+
+    /* Celdas */
+    .dashboard-table td {
+        padding: 12px;
+        font-size: 14px;
+        border-bottom: 1px solid #e6e6e6;
+    }
+
+    /* Filas alternas */
+    .dashboard-table tbody tr:nth-child(even) {
+        background-color: #f8faff;
+    }
+
+    /* Hover fila */
+    .dashboard-table tbody tr:hover {
+        background-color: #e6f3ff;
+        transition: background-color 0.3s ease;
+    }
+
+    /* Bordes redondeados superiores */
+    .dashboard-table thead tr:first-child th:first-child {
+        border-top-left-radius: 10px;
+    }
+
+    .dashboard-table thead tr:first-child th:last-child {
+        border-top-right-radius: 10px;
+    }
+
+/* Tarjeta de formularios */
+.form-card {
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+    /* Título */
+    .form-card h3 {
+        color: #007BFF;
+        font-family: 'Segoe UI', sans-serif;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+
+    /* Inputs */
+    .form-card .form-control {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 14px;
+        font-family: inherit;
+        transition: border-color 0.3s ease;
+    }
+
+        .form-card .form-control:focus {
+            outline: none;
+            border-color: #007BFF;
+            box-shadow: 0 0 5px rgba(0,123,255,0.3);
+        }
+
+    /* Botón rojo de borrar */
+    .form-card .btn-danger {
+        width: 100%;
+        padding: 10px;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: background-color 0.3s ease;
+    }
+
+        .form-card .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+    /* Link volver */
+    .form-card .link-volver {
+        color: #007BFF;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+        .form-card .link-volver:hover {
+            text-decoration: underline;
+        }

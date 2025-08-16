@@ -133,5 +133,25 @@ namespace WebAppMyBandTour.Controllers
             return Json(new { Estado = "OK" });
         }
 
+        public JsonResult BorrarConcierto(string codigo)
+        {
+            BD_MyBandTourEntities conexion = new BD_MyBandTourEntities();
+            ObjectParameter Resultado = new ObjectParameter("Resultado", typeof(int));
+
+            // Asumiendo que tienes un procedimiento almacenado para borrar
+            conexion.pr_EliminarConcierto(codigo, Resultado);
+
+            if ((int)Resultado.Value == 0)
+            {
+                return Json(new { Estado = "Concierto eliminado exitosamente" });
+            }
+            else
+            {
+                return Json(new { Estado = "Error al eliminar el concierto." });
+            }
+        }
     }
+
+
 }
+
