@@ -19,8 +19,13 @@ function formatearFecha(fecha) {
 }
 
 const imagenesBandas = {
-    "coldplay": "https://link-a-la-imagen.com/coldplay.jpg",
-    "metallica": "https://link-a-la-imagen.com/metallica.jpg"
+    "bad bunny": "/Content/img/bbconcert.jpg",
+    "coldplay": "/Content/img/coldplay.jpg",
+    "beele": "/Content/img/beele.jpg",
+    "calibre 50": "/Content/img/calibre50.jpg",
+    "maroon 5": "/Content/img/maroon5.jpg",
+    "the legacy concert": "/Content/img/legacy.jpg",
+    "kendrick lamar": "/Content/img/kendrick.jpg" 
 };
 
 // 🔹 Funciones de autenticación
@@ -125,25 +130,43 @@ function mostrarConciertos(lista) {
 
     lista.forEach((concierto, index) => {
         const clone = template.content.cloneNode(true);
+
+        // Normalizar nombre de banda
         const nombreBanda = concierto.Banda?.toLowerCase().trim();
         const imgURL = imagenesBandas[nombreBanda] || 'https://via.placeholder.com/300x200?text=Concierto';
+        console.log("Banda:", nombreBanda);
+        console.log("Imagen URL:", imgURL);
 
+        // Convertir fecha
         const fechaObj = convertDate(concierto.Fecha);
-        const fechaFormateada = fechaObj?.toLocaleDateString('es-CR', { day: '2-digit', month: 'long', year: 'numeric' });
-        const horaFormateada = fechaObj?.toLocaleTimeString('es-CR', { hour: '2-digit', minute: '2-digit' });
+        const fechaFormateada = fechaObj?.toLocaleDateString('es-CR', {
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric'
+        });
+        const horaFormateada = fechaObj?.toLocaleTimeString('es-CR', {
+            hour: '2-digit',
+            minute: '2-digit'
+        });
 
+        // ID único para colapsable
         const colapsableId = `detalle-${index}`;
 
-        clone.querySelector('.card-img-top').src = imgURL;
-        clone.querySelector('.card-img-top').alt = concierto.Banda;
-        clone.querySelector('.card-title').textContent = concierto.Banda;
-        clone.querySelector('.genero').innerHTML = `<strong>Género:</strong> ${concierto.Genero}`;
+        // Asignar contenido al clon
+        const img = clone.querySelector('.card-img-top');
+        if (img) {
+            img.src = imgURL;
+            img.alt = concierto.Banda || 'Imagen no disponible';
+        }
+
+        clone.querySelector('.card-title').textContent = concierto.Banda || 'Banda desconocida';
+        clone.querySelector('.genero').innerHTML = `<strong>Género:</strong> ${concierto.Genero || 'N/A'}`;
         clone.querySelector('button').setAttribute('data-bs-target', `#${colapsableId}`);
         clone.querySelector('.detalles').id = colapsableId;
-        clone.querySelector('.fecha').innerHTML = `<strong>Fecha:</strong> ${fechaFormateada}`;
-        clone.querySelector('.hora').innerHTML = `<strong>Hora:</strong> ${horaFormateada}`;
-        clone.querySelector('.pais').innerHTML = `<strong>País:</strong> ${concierto.Pais}`;
-        clone.querySelector('.lugar').innerHTML = `<strong>Lugar:</strong> ${concierto.Lugar}`;
+        clone.querySelector('.fecha').innerHTML = `<strong>Fecha:</strong> ${fechaFormateada || 'Sin fecha'}`;
+        clone.querySelector('.hora').innerHTML = `<strong>Hora:</strong> ${horaFormateada || 'Sin hora'}`;
+        clone.querySelector('.pais').innerHTML = `<strong>País:</strong> ${concierto.Pais || 'Desconocido'}`;
+        clone.querySelector('.lugar').innerHTML = `<strong>Lugar:</strong> ${concierto.Lugar || 'Desconocido'}`;
 
         contenedor.appendChild(clone);
     });

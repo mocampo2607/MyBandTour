@@ -5,6 +5,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebAppMyBandTour.Models;
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
 
 namespace WebAppMyBandTour.Controllers
 {
